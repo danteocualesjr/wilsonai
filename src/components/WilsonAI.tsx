@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Sparkles, Send } from 'lucide-react'
 
 const VolleyballIcon = () => (
@@ -16,6 +16,15 @@ export default function WilsonAI() {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   const handleSend = async () => {
     if (input.trim() && !isLoading) {
@@ -24,7 +33,6 @@ export default function WilsonAI() {
       setMessages(prev => [...prev, { role: 'user', content: input }])
       
       try {
-        // Send to API
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: {
@@ -33,23 +41,30 @@ export default function WilsonAI() {
           body: JSON.stringify({ message: input }),
         });
 
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+
         const data = await response.json();
         
-        // Add AI response
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
         setMessages(prev => [...prev, { 
           role: 'assistant', 
           content: data.response 
         }]);
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Chat error:', error);
         setMessages(prev => [...prev, { 
           role: 'assistant', 
-          content: 'Sorry, I encountered an error. Please try again.' 
+          content: `Error: ${error.message}. Please try again.` 
         }]);
+      } finally {
+        setInput('')
+        setIsLoading(false)
       }
-
-      setInput('')
-      setIsLoading(false)
     }
   }
 
@@ -78,6 +93,18 @@ export default function WilsonAI() {
               </div>
             </div>
           ))}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-gray-100 rounded-lg px-4 py-2">
+                <div className="flex space-x-2 items-center">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} /> {/* Scroll anchor */}
         </div>
 
         {/* Input */}
@@ -90,10 +117,15 @@ export default function WilsonAI() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+              disabled={isLoading}
             />
             <button
               onClick={handleSend}
-              className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 transition-colors"
+              className={`rounded-lg px-4 py-2 text-white transition-colors ${
+                isLoading 
+                  ? 'bg-blue-300 cursor-not-allowed' 
+                  : 'bg-blue-500 hover:bg-blue-600'
+              }`}
               disabled={isLoading}
             >
               <Send className="h-5 w-5" />
