@@ -19,8 +19,6 @@ export default function WilsonAI() {
   const handleSend = () => {
     if (input.trim()) {
       setMessages([...messages, { role: 'user', content: input }])
-      // Here you would typically send the input to your AI service and get a response
-      // For now, we'll just mock a response
       setTimeout(() => {
         setMessages(prev => [...prev, { role: 'assistant', content: `You said: ${input}` }])
       }, 1000)
@@ -29,50 +27,46 @@ export default function WilsonAI() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50"></div>
-      
-      {/* Main chat container */}
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-200">
+    <div className="flex min-h-screen items-center justify-center bg-white p-4">
+      <div className="w-full max-w-2xl rounded-xl bg-white shadow-lg">
         {/* Header */}
-        <div className="p-4 border-b border-gray-200">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <VolleyballIcon />
-            WilsonAI
-            <Sparkles className="w-5 h-5 text-yellow-500" />
-          </h1>
+        <div className="flex items-center gap-2 border-b border-gray-200 p-4">
+          <VolleyballIcon />
+          <span className="text-xl font-semibold">WilsonAI</span>
+          <Sparkles className="h-5 w-5 text-yellow-500" />
         </div>
 
-        {/* Chat messages */}
-        <div className="h-96 overflow-auto p-4 space-y-4">
+        {/* Messages */}
+        <div className="h-96 overflow-y-auto p-4 space-y-4">
           {messages.map((message, index) => (
             <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[80%] rounded-lg p-3 ${
-                message.role === 'user' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 text-gray-900'
-              }`}>
+              <div 
+                className={`rounded-lg px-4 py-2 max-w-[80%] ${
+                  message.role === 'user' 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-gray-100 text-gray-800'
+                }`}
+              >
                 {message.content}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Input area */}
-        <div className="p-4 border-t border-gray-200">
-          <div className="flex space-x-2">
+        {/* Input */}
+        <div className="border-t border-gray-200 p-4">
+          <div className="flex gap-2">
             <input
               type="text"
+              placeholder="Type your message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Type your message..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
             />
             <button
               onClick={handleSend}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 transition-colors"
             >
               <Send className="h-5 w-5" />
             </button>
