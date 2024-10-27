@@ -15,14 +15,41 @@ const VolleyballIcon = () => (
 export default function WilsonAI() {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([])
   const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, { role: 'user', content: input }])
-      setTimeout(() => {
-        setMessages(prev => [...prev, { role: 'assistant', content: `You said: ${input}` }])
-      }, 1000)
+  const handleSend = async () => {
+    if (input.trim() && !isLoading) {
+      setIsLoading(true)
+      // Add user message
+      setMessages(prev => [...prev, { role: 'user', content: input }])
+      
+      try {
+        // Send to API
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: input }),
+        });
+
+        const data = await response.json();
+        
+        // Add AI response
+        setMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: data.response 
+        }]);
+      } catch (error) {
+        console.error('Error:', error);
+        setMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: 'Sorry, I encountered an error. Please try again.' 
+        }]);
+      }
+
       setInput('')
+      setIsLoading(false)
     }
   }
 
@@ -67,6 +94,7 @@ export default function WilsonAI() {
             <button
               onClick={handleSend}
               className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 transition-colors"
+              disabled={isLoading}
             >
               <Send className="h-5 w-5" />
             </button>
