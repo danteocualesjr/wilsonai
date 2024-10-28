@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Sparkles, Send } from 'lucide-react'
 
 const VolleyballIcon = () => (
-  
+
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="2"/>
     <path d="M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3" stroke="currentColor" strokeWidth="2"/>
@@ -11,6 +11,7 @@ const VolleyballIcon = () => (
     <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
     <circle cx="15" cy="10" r="1.5" fill="currentColor"/>
   </svg>
+  
 )
 
 export default function WilsonAI() {
