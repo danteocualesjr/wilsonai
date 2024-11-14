@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
+    
     // Extract message from request body
     const { message } = await req.json();
     console.log('Received message:', message);
