@@ -22,8 +22,9 @@ export async function POST(req: Request) {
       headers: {
         
         'Content-Type': 'application/json',
-        
+
       },
+      
       body: JSON.stringify({
         model: 'mistral', // Using Mistral language model
         prompt: message, // Pass user message as prompt
