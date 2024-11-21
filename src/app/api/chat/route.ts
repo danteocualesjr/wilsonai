@@ -32,8 +32,9 @@ export async function POST(req: Request) {
         prompt: message, // Pass user message as prompt
 
         stream: false // Get complete response, not streaming
-        
+
       }),
+      
     });
 
     // Get raw response text for logging
