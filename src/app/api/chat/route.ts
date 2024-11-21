@@ -30,6 +30,7 @@ export async function POST(req: Request) {
         model: 'mistral', // Using Mistral language model
         
         prompt: message, // Pass user message as prompt
+        
         stream: false // Get complete response, not streaming
       }),
     });
