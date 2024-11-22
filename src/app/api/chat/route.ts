@@ -38,6 +38,7 @@ export async function POST(req: Request) {
     });
 
     // Get raw response text for logging
+    
     const responseText = await testResponse.text();
     console.log('Raw Ollama response:', responseText);
 
