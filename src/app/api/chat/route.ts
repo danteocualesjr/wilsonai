@@ -40,10 +40,11 @@ export async function POST(req: Request) {
     // Get raw response text for logging
 
     const responseText = await testResponse.text();
-    
+
     console.log('Raw Ollama response:', responseText);
 
     // Parse JSON response
+    
     const data = JSON.parse(responseText);
     console.log('Parsed Ollama response:', data);
 
