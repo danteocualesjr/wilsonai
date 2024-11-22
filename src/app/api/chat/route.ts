@@ -46,10 +46,11 @@ export async function POST(req: Request) {
     // Parse JSON response
 
     const data = JSON.parse(responseText);
-    
+
     console.log('Parsed Ollama response:', data);
 
     // Check if request was successful
+    
     if (!testResponse.ok) {
       throw new Error(`Ollama API error: ${testResponse.status}`);
     }
