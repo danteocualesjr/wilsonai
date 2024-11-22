@@ -44,8 +44,9 @@ export async function POST(req: Request) {
     console.log('Raw Ollama response:', responseText);
 
     // Parse JSON response
-    
+
     const data = JSON.parse(responseText);
+    
     console.log('Parsed Ollama response:', data);
 
     // Check if request was successful
