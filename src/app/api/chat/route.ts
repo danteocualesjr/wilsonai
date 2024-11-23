@@ -52,8 +52,9 @@ export async function POST(req: Request) {
     // Check if request was successful
     
     if (!testResponse.ok) {
-      
+
       throw new Error(`Ollama API error: ${testResponse.status}`);
+      
     }
 
     // Validate response structure
