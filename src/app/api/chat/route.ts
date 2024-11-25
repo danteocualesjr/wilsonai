@@ -62,6 +62,7 @@ export async function POST(req: Request) {
     if (!data.response) {
       
       console.error('No response field in data:', data);
+      
       throw new Error('Invalid response structure from Ollama');
     }
 
