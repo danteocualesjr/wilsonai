@@ -84,6 +84,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error) {
+    
     // Log and return error response
     console.error('Detailed error:', error);
     return NextResponse.json({
