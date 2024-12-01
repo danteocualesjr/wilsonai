@@ -90,8 +90,9 @@ export async function POST(req: Request) {
     console.error('Detailed error:', error);
     
     return NextResponse.json({
-      
+
       error: 'Failed to get response',
+      
       details: error.message
     }, { 
       status: 500 // Return 500 status code for server errors
