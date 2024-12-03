@@ -98,6 +98,7 @@ export async function POST(req: Request) {
     }, { 
       
       status: 500 // Return 500 status code for server errors
+      
     });
   }
 }
