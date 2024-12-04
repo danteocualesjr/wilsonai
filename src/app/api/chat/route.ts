@@ -7,7 +7,6 @@ export async function POST(req: Request) {
     
     // Extract message from request body
     const { message } = await req.json();
-
     console.log('Received message:', message);
 
     // Make request to local Ollama API endpoint
