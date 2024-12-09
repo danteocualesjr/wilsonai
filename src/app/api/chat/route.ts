@@ -56,7 +56,6 @@ export async function POST(req: Request) {
 
     // Return successful response with AI output and debug info
     return NextResponse.json({ 
-
       response: data.response,
       
       debug: {
