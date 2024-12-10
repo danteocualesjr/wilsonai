@@ -58,7 +58,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ 
       response: data.response,
       debug: {
-
         status: testResponse.status,
         
         data: data
