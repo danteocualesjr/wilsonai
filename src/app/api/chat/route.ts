@@ -60,7 +60,6 @@ export async function POST(req: Request) {
       debug: {
         status: testResponse.status,
         data: data
-
       }      
     });
 
